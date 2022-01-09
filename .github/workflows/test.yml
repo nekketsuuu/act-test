@@ -1,0 +1,19 @@
+name: test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        example:
+          - foobar
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo ${FOOBAR}
+        env:
+          FOOBAR: ${{ hashFiles('${{ matrix.example }}.txt') }}
+          PIYO1: ${{ contains('${{ matrix.example }}', 'foobar') }}
+          PIYO2: ${{ contains('${{ matrix.example }}', 'matrix') }}
+          PIYO3: ${{ '${{ matrix.example }}' }}
